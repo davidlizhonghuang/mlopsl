@@ -6,7 +6,10 @@ jobs:
     # optionally use a convenient Ubuntu LTS + DVC + CML image
     container: docker://dvcorg/cml-py3:latest
     steps:
-        
+      - name: Install GLIBC
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libc6
                 
       - uses: iterative/setup-cml@v1
       - name: Train model
