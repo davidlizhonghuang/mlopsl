@@ -1,31 +1,25 @@
-name: your-workflow-name
+name: model-wine-quality
 on: [push]
 jobs:
   run:
-    runs-on: ubuntu-latest
-    # optionally use a convenient Ubuntu LTS + DVC + CML image
+    runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
     steps:
-      - name: Add missing GPG keys
+      - uses: actions/checkout@v2
+      - name: cml_run
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -fsSL https://dvc.org/deb/public.gpg | sudo gpg --dearmor -o /usr/share/keyrings/dvc-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/dvc-archive-keyring.gpg] https://dvc.org/deb stable main" | sudo tee /etc/apt/sources.list.d/dvc.list
 
-      - name: Install GLIBC
-        run: |
-          sudo apt update
-          sudo apt install -y libc6
-                
-      - uses: iterative/setup-cml@v1
-      - name: Train model
-        run: |
           # Your ML workflow goes here
           pip install -r requirements.txt
           python train.py
-      - name: Write CML report
-        env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Post reports as comments in GitHub PRs
-          cat results.txt >> report.md
-          cml comment create report.md
+          
+          echo "## Model metrics" > report.md
+          cat metrics.txt >> report.md
+          
+          echo "## Data viz" >> report.md
+          cml-publish feature_importance.png --md >> report.md
+          cml-publish residuals.png --md >> report.md
+          
+          cml-send-comment report.md
