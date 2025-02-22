@@ -7,18 +7,11 @@ jobs:
     container: docker://dvcorg/cml-py3:latest
     steps:
       - name: Build Docker image
-        run: docker build -t my-image-name -f dockerfile .
+        run: docker build -t my-image-name -f mlopsl/dockerfile .
 
       - name: Run a script inside the container
         run: docker run my-image-name echo "Running inside the container"
-      - uses: actions/checkout@v3
-      # may need to setup NodeJS & Python3 on e.g. self-hosted
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '16'
-      # - uses: actions/setup-python@v4
-      #   with:
-      #     python-version: '3.x'
+        
       - uses: actions/checkout@v4
       - uses: iterative/setup-cml@v1
       - name: Train model
