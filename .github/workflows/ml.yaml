@@ -9,9 +9,8 @@ jobs:
 
       - name: Add missing GPG keys
         run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFFAF4443CE9AD84
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
-
+          curl -fsSL https://s3-us-east-2.amazonaws.com/dvc-s3-repo/deb/public.gpg | sudo gpg --dearmor -o /usr/share/keyrings/dvc-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/dvc-archive-keyring.gpg] https://s3-us-east-2.amazonaws.com/dvc-s3-repo/deb stable main" | sudo tee /etc/apt/sources.list.d/dvc.list
       - name: Install GLIBC
         run: |
           sudo apt update
