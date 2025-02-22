@@ -6,13 +6,13 @@ jobs:
     # optionally use a convenient Ubuntu LTS + DVC + CML image
     container: docker://dvcorg/cml-py3:latest
     steps:
-      - name: Build Docker image
-        run: docker build -t my-image-name -f ./Dockerfile .
-
-      - name: Run a script inside the container
-        run: docker run my-image-name echo "Running inside the container"
         
+      - name: updk
+        run: |
+          apt-get update && apt-get install -y libc6
+          
       - uses: actions/checkout@v4
+                 
       - uses: iterative/setup-cml@v1
       - name: Train model
         run: |
