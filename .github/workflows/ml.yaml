@@ -6,11 +6,11 @@ jobs:
     # optionally use a convenient Ubuntu LTS + DVC + CML image
     container: docker://dvcorg/cml-py3:latest
     steps:
-
       - name: Add missing GPG keys
         run: |
-          curl -fsSL https://s3-us-east-2.amazonaws.com/dvc-s3-repo/deb/public.gpg | sudo gpg --dearmor -o /usr/share/keyrings/dvc-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/dvc-archive-keyring.gpg] https://s3-us-east-2.amazonaws.com/dvc-s3-repo/deb stable main" | sudo tee /etc/apt/sources.list.d/dvc.list
+          curl -fsSL https://dvc.org/deb/public.gpg | sudo gpg --dearmor -o /usr/share/keyrings/dvc-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/dvc-archive-keyring.gpg] https://dvc.org/deb stable main" | sudo tee /etc/apt/sources.list.d/dvc.list
+
       - name: Install GLIBC
         run: |
           sudo apt update
