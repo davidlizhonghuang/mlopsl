@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: Install GLIBC
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libc6
+          sudo apt update
+          sudo apt install -y libc6
                 
       - uses: iterative/setup-cml@v1
       - name: Train model
