@@ -6,6 +6,14 @@ jobs:
     # optionally use a convenient Ubuntu LTS + DVC + CML image
     container: docker://dvcorg/cml-py3:latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t my-image-name -f dockerfile .
+
+      - name: Run a script inside the container
+        run: docker run my-image-name echo "Running inside the container"
       - uses: actions/checkout@v3
       # may need to setup NodeJS & Python3 on e.g. self-hosted
       # - uses: actions/setup-node@v3
