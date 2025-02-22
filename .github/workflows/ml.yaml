@@ -6,6 +6,12 @@ jobs:
     # optionally use a convenient Ubuntu LTS + DVC + CML image
     container: docker://dvcorg/cml-py3:latest
     steps:
+
+      - name: Add missing GPG keys
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFFAF4443CE9AD84
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
+
       - name: Install GLIBC
         run: |
           sudo apt update
