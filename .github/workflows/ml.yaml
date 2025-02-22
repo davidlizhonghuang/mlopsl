@@ -7,7 +7,7 @@ jobs:
     container: docker://dvcorg/cml-py3:latest
     steps:
       - name: Build Docker image
-        run: docker build -t my-image-name -f Dockerfile .
+        run: docker build -t my-image-name -f ./Dockerfile .
 
       - name: Run a script inside the container
         run: docker run my-image-name echo "Running inside the container"
