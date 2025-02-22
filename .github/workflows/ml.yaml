@@ -9,6 +9,7 @@ jobs:
         
       - name: updk
         run: |
+          from dvcorg/cml-py3:latest
           apt-get update && apt-get install -y libc6
           
       - uses: actions/checkout@v4
