@@ -7,13 +7,7 @@ jobs:
     container: docker://dvcorg/cml-py3:latest
     steps:
         
-      - name: updk
-        run: |
-          from dvcorg/cml-py3:latest
-          apt-get update && apt-get install -y libc6
-          
-      - uses: actions/checkout@v4
-                 
+                
       - uses: iterative/setup-cml@v1
       - name: Train model
         run: |
