@@ -1,25 +1,41 @@
-name: model-wine-quality
-on: [push]
-jobs:
-  run:
-    runs-on: [ubuntu-latest]
-    container: docker://dvcorg/cml-py3:latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: cml_run
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
+name: My Workflow
 
-          # Your ML workflow goes here
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ubuntu:22.04  # Specify Ubuntu 22.04 as the container image
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install build-essential
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'lts/*'  # Or a specific Node.js version
+
+    - name: Install CML CLI
+      run: npm install -g cml-cli@latest
+
+    - name: Run script
+      shell: bash
+      run: |
+          pip install --upgrade pip
+          python -m venv venv
+          source venv/bin/activate
           pip install -r requirements.txt
           python train.py
-          
-          echo "## Model metrics" > report.md
-          cat metrics.txt >> report.md
-          
-          echo "## Data viz" >> report.md
-          cml-publish feature_importance.png --md >> report.md
-          cml-publish residuals.png --md >> report.md
-          
-          cml-send-comment report.md
+
+          echo "## metric output" >>report.md
+          cat metrics.txt >>report.md
+          cml-publish metrics.txt --md --title 'Metrics Report'
